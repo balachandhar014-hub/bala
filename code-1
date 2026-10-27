@@ -1,0 +1,53 @@
+import java.util.Scanner;
+
+public class Calculator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        char again;
+
+        do {
+            System.out.print("Enter first number: ");
+            double a = scanner.nextDouble();
+
+            System.out.print("Enter operator (+, -, *, /, %): ");
+            char op = scanner.next().charAt(0);
+
+            System.out.print("Enter second number: ");
+            double b = scanner.nextDouble();
+
+            try {
+                double result = calculate(a, b, op);
+                System.out.println("Result: " + a + " " + op + " " + b + " = " + result);
+            } catch (IllegalArgumentException | ArithmeticException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+
+            System.out.print("Calculate again? (y/n): ");
+            again = scanner.next().toLowerCase().charAt(0);
+            System.out.println();
+        } while (again == 'y');
+
+        System.out.println("Goodbye!");
+        scanner.close();
+    }
+
+    static double calculate(double a, double b, char op) {
+        switch (op) {
+            case '+':
+                return a + b;
+            case '-':
+                return a - b;
+            case '*':
+                return a * b;
+            case '/':
+                if (b == 0) throw new ArithmeticException("Cannot divide by zero");
+                return a / b;
+            case '%':
+                if (b == 0) throw new ArithmeticException("Cannot take modulo by zero");
+                return a % b;
+            default:
+                throw new IllegalArgumentException("Unknown operator: " + op);
+        }
+    }
+}
